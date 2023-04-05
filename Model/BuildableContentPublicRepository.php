@@ -141,8 +141,8 @@ class BuildableContentPublicRepository implements BuildableContentPublicReposito
                     $styles
                 );
 
-                $response->setData('settings_content', \Zend_Json::encode($response->getSettings()));
-                $response->setData('elements_content', \Zend_Json::encode($response->getElements()));
+                $response->setData('settings_content', \Laminas\Json\Json::encode($response->getSettings()));
+                $response->setData('elements_content', \Laminas\Json\Json::encode($response->getElements()));
 
                 return $response->getData();
             };
