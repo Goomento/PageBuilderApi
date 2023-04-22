@@ -11,6 +11,7 @@ use Goomento\PageBuilder\Api\ContentRegistryInterface;
 use Goomento\PageBuilder\Api\Data\BuildableContentInterface;
 use Goomento\PageBuilder\Builder\Css\ContentCss;
 use Goomento\PageBuilder\Builder\Css\GlobalCss;
+use Goomento\PageBuilder\Helper\DataHelper;
 use Goomento\PageBuilder\Helper\EncryptorHelper;
 use Goomento\PageBuilder\Model\BetterCaching;
 use Goomento\PageBuilder\Model\ContentDataProcessor;
@@ -141,8 +142,8 @@ class BuildableContentPublicRepository implements BuildableContentPublicReposito
                     $styles
                 );
 
-                $response->setData('settings_content', \Zend_Json::encode($response->getSettings()));
-                $response->setData('elements_content', \Zend_Json::encode($response->getElements()));
+                $response->setData('settings_content', DataHelper::encode($response->getSettings()));
+                $response->setData('elements_content', DataHelper::encode($response->getElements()));
 
                 return $response->getData();
             };
