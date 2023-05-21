@@ -10,8 +10,8 @@ type Query {
 
 type BuildableContent @doc(description: "BuildableContent defines the page builder HTML and other details") {
     title: String @doc(description: "Title of pagebuilder")
-    settings_content: String @doc(description: "Decoded JSON of setting for page builder")
-    elements_content: String @doc(description: "Decoded JSON of elements for page builder")
+    settings_content: String @doc(description: "JSON content of setting for page builder")
+    elements_content: String @doc(description: "JSON content of elements for page builder")
     html: String @doc(description: "HTML content of page builder")
     type: String @doc(description: "Page builder type")
     status: String @doc(description: "Page builder status")

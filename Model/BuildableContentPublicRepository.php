@@ -13,8 +13,10 @@ use Goomento\PageBuilder\Builder\Css\ContentCss;
 use Goomento\PageBuilder\Builder\Css\GlobalCss;
 use Goomento\PageBuilder\Helper\DataHelper;
 use Goomento\PageBuilder\Helper\EncryptorHelper;
+use Goomento\PageBuilder\Helper\StateHelper;
 use Goomento\PageBuilder\Model\BetterCaching;
 use Goomento\PageBuilder\Model\ContentDataProcessor;
+use Goomento\PageBuilder\PageBuilder;
 use Goomento\PageBuilderApi\Api\BuildableContentPublicRepositoryInterface;
 use Goomento\PageBuilderApi\Api\ResponseBuildableContentInterface;
 use Goomento\PageBuilderApi\Api\ResponseBuildableContentInterfaceFactory;
@@ -96,6 +98,9 @@ class BuildableContentPublicRepository implements BuildableContentPublicReposito
         $response = $this->responseBuildableContentFactory->create();
 
         if ($buildableContent) {
+
+            PageBuilder::initialize();
+
             $key = implode('_', [
                 'webapi_content',
                 $buildableContent->getUniqueIdentity(),
@@ -116,16 +121,10 @@ class BuildableContentPublicRepository implements BuildableContentPublicReposito
                     'content' => $contentStyle->getContent(),
                 ];
 
-                $elements = $buildableContent->getElements();
-                $settingsForDisplay = [];
-                foreach ($elements as $element) {
-                    $settingsForDisplay[] =  $this->contentDataProcessor->getSettingsForDisplay($element);
-                }
-
                 $response->setTitle(
                     $buildableContent->getTitle()
                 )->setElements(
-                    $settingsForDisplay
+                    $buildableContent->getElements()
                 )->setSettings(
                     $buildableContent->getSettings()
                 )->setStatus(
@@ -137,7 +136,9 @@ class BuildableContentPublicRepository implements BuildableContentPublicReposito
                 )->setCreationTime(
                     $buildableContent->getCreationTime()
                 )->setHtml(
-                    $this->contentDataProcessor->getHtml($buildableContent)
+                    StateHelper::emulateFrontend(function () use ($buildableContent) {
+                        return $this->contentDataProcessor->getHtml($buildableContent);
+                    })
                 )->setStyles(
                     $styles
                 );

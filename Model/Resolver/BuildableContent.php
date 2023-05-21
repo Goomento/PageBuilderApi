@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Goomento\PageBuilderApi\Model\Resolver;
 
+use Exception;
 use Goomento\PageBuilderApi\Api\BuildableContentPublicRepositoryInterface;
 use Goomento\PageBuilderApi\Model\ResponseBuildableContent;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -61,7 +62,7 @@ class BuildableContent implements ResolverInterface
             return $this->valueFactory->create($result);
         } catch (LocalizedException $exception) {
             throw new GraphQlNoSuchEntityException(__($exception->getMessage()));
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new GraphQlNoSuchEntityException(__('Something went wrong'));
         }
     }
